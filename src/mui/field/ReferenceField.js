@@ -55,7 +55,7 @@ export class ReferenceField extends Component {
     }
 
     render() {
-        const { record, source, reference, referenceRecord, basePath, allowEmpty, children, elStyle, linkType } = this.props;
+        const { record, source, reference, referenceRecord, basePath, allowEmpty, children, style, elStyle, linkType } = this.props;
         if (React.Children.count(children) !== 1) {
             throw new Error('<ReferenceField> only accepts a single child');
         }
@@ -77,7 +77,7 @@ export class ReferenceField extends Component {
         if (linkType === 'show') {
             return <Link style={elStyle} to={`${href}/show`}>{child}</Link>;
         }
-        return child;
+        return <div style={style}>{child}</div>;
     }
 }
 
@@ -87,6 +87,7 @@ ReferenceField.propTypes = {
     basePath: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
     crudGetManyAccumulate: PropTypes.func.isRequired,
+    style: PropTypes.object,
     elStyle: PropTypes.object,
     label: PropTypes.oneOfType([
       PropTypes.string,
