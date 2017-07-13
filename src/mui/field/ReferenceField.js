@@ -49,7 +49,7 @@ export class ReferenceField extends Component {
 
     fetchReference(props) {
         const source = get(props.record, props.source);
-        if (source !== null && typeof source !== 'undefined') {
+        if (source !== null && typeof source !== 'undefined' && props.source !== 'id') {
             this.props.crudGetManyAccumulate(props.reference, [source]);
         }
     }
