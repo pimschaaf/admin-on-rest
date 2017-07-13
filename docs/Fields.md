@@ -27,6 +27,7 @@ All field components accept the following attributes:
 
 * `source`: Property name of your entity to view/edit. This attribute is required.
 * `label`: Used as a table header of an input label. Defaults to the `source` when omitted.
+* `addLabel`: Defined the visibility of the label when the field is not in a datagrid, default value is ```true```.
 * `sortable`: Should the list be sortable using `source` attribute? Defaults to `true`.
 * `elStyle`: A style object to customize the look and feel of the field element itself
 * `style`: A style object to customize the look and feel of the field container (e.g. the `<td>` in a datagrid).
