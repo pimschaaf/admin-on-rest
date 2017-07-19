@@ -97,6 +97,7 @@ ReferenceField.propTypes = {
     reference: PropTypes.string.isRequired,
     referenceRecord: PropTypes.object,
     source: PropTypes.string.isRequired,
+    sourceSort: PropTypes.string,
     linkType: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.bool,

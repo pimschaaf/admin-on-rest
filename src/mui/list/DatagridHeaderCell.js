@@ -25,15 +25,16 @@ const styles = {
 
 export const DatagridHeaderCell = ({ field, defaultStyle, currentSort, updateSort, resource }) => {
     const style = defaultsDeep({}, field.props.headerStyle, field.type.defaultProps ? field.type.defaultProps.headerStyle : {}, defaultStyle);
+    const sourceSort = field.props.sourceSort || field.props.source;
     return (
         <TableHeaderColumn style={style}>
-            {field.props.sortable !== false && field.props.source ?
+            {field.props.sortable !== false && sourceSort ?
                 <FlatButton
                     labelPosition="before"
                     onClick={updateSort}
-                    data-sort={field.props.source}
+                    data-sort={sourceSort}
                     label={<FieldTitle label={field.props.label} source={field.props.source} resource={resource} />}
-                    icon={field.props.source === currentSort.field ?
+                    icon={sourceSort === currentSort.field ?
                         <ContentSort style={currentSort.order === 'ASC' ? { transform: 'rotate(180deg)' } : {}} /> : false
                     }
                     style={styles.sortButton}
