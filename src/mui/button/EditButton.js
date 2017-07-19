@@ -8,14 +8,17 @@ import ContentCreate from 'material-ui/svg-icons/content/create';
 import linkToRecord from '../../util/linkToRecord';
 import translate from '../../i18n/translate';
 
-const EditButton = ({ basePath = '', label = 'aor.action.edit', style = {overflow: 'inherit'}, record = {}, translate, options = {} }) => <FlatButton
+const EditButton = ({ basePath = '', label = 'aor.action.edit', style = {}, record = {}, translate, options = {} }) => {
+  style = Object.assign({}, {overflow: 'inherit'}, style);
+  return (<FlatButton
     primary
     label={label && translate(label)}
     icon={<ContentCreate />}
     containerElement={<Link to={linkToRecord(basePath, record.id)} />}
     style={style}
     {...options}
-/>;
+/>)
+}
 
 EditButton.propTypes = {
     basePath: PropTypes.string,
