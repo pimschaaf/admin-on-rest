@@ -66,7 +66,9 @@ export const TimeField = ({ elStyle, locales, options, record, source }) => {
     const value = get(record, source);
     if (value == null) return null;
     const date = datify(value);
-    const dateString = (toLocaleStringSupportsLocales ? date.toLocaleTimeString(locales, options) : date.toLocaleTimeString())
+    const dateString = (date)
+      ? ((toLocaleStringSupportsLocales ? date.toLocaleTimeString(locales, options) : date.toLocaleTimeString()))
+      : '';
 
     return <span style={elStyle}>{dateString}</span>;
 };
