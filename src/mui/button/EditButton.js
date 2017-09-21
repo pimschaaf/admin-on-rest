@@ -8,17 +8,22 @@ import ContentCreate from 'material-ui/svg-icons/content/create';
 import linkToRecord from '../../util/linkToRecord';
 import translate from '../../i18n/translate';
 
-const EditButton = ({ basePath = '', label = 'aor.action.edit', style = {}, record = {}, translate, options = {} }) => {
-  style = Object.assign({}, {overflow: 'inherit'}, style);
-  return (<FlatButton
-    primary
-    label={label && translate(label)}
-    icon={<ContentCreate />}
-    containerElement={<Link to={linkToRecord(basePath, record.id)} />}
-    style={style}
-    {...options}
-/>)
-}
+const EditButton = ({
+    basePath = '',
+    label = 'aor.action.edit',
+    record = {},
+    translate,
+    options = {}
+}) => (
+    <FlatButton
+        primary
+        label={label && translate(label)}
+        icon={<ContentCreate />}
+        containerElement={<Link to={linkToRecord(basePath, record.id)} />}
+        style={{ overflow: 'inherit' }}
+        {...options}
+    />
+);
 
 EditButton.propTypes = {
     basePath: PropTypes.string,
@@ -30,13 +35,13 @@ EditButton.propTypes = {
 };
 
 const enhance = compose(
-    shouldUpdate((props, nextProps) =>
-        (props.record
-        && props.record.id !== nextProps.record.id
-        || props.basePath !== nextProps.basePath)
-        || (props.record == null && nextProps.record != null)
+    shouldUpdate(
+        (props, nextProps) =>
+            (props.record && props.record.id !== nextProps.record.id) ||
+            props.basePath !== nextProps.basePath ||
+            (props.record == null && nextProps.record != null)
     ),
-    translate,
+    translate
 );
 
 export default enhance(EditButton);

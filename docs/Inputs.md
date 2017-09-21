@@ -30,7 +30,7 @@ All input components accept the following attributes:
 
 * `source`: Property name of your entity to view/edit. This attribute is required.
 * `defaultValue`: Value to be set when the property is `null` or `undefined`.
-* `validate`: Validation rules for the current property (see the [Validation Documentation](./CreateEdit.html#validation))
+* `validate`: Validation rules for the current property (see the [Validation Documentation](./CreateEdit.md#validation))
 * `label`: Used as a table header of an input label. Defaults to the `source` when omitted.
 * `style`: A style object to customize the look and feel of the field container (e.g. the `<div>` in a form).
 * `elStyle`: A style object to customize the look and feel of the field element itself
@@ -64,7 +64,7 @@ Then you can display a text input to edit the author first name as follows:
 <TextInput source="author.firstName" />
 ```
 
-**Tip**: If your interface has to support multiple languages, don't use the `label` prop, and put the localized labels in a dictionary instead. See the [Translation documentation](./Translation.html#translating-resource-and-field-names) for details.
+**Tip**: If your interface has to support multiple languages, don't use the `label` prop, and put the localized labels in a dictionary instead. See the [Translation documentation](./Translation.md#translating-resource-and-field-names) for details.
 
 ## `<AutocompleteInput>`
 
@@ -357,7 +357,7 @@ Previews are enabled using `<ImageInput>` children, as following:
 </ImageInput>
 ```
 
-Writing a custom field component for displaying the current value(s) is easy:  it's a standard [field](./Fields.html#writing_your_own_field_component).
+Writing a custom field component for displaying the current value(s) is easy:  it's a standard [field](./Fields.md#writing_your_own_field_component).
 
 When receiving **new** files, `ImageInput` will add a `rawFile` property to the object passed as the `record` prop of children. This `rawFile` is the [File](https://developer.mozilla.org/en-US/docs/Web/API/File) instance of the newly added file. This can be useful to display informations about size or mimetype inside a custom field.
 
@@ -371,7 +371,7 @@ If the default Dropzone label doesn't fit with your need, you can pass a `placeh
 </ImageInput>
 ```
 
-Note that the image upload returns a [File](https://developer.mozilla.org/en/docs/Web/API/File) object. It is your responsibility to handle it depending on your API behavior. You can for instance encode it in base64, or send it as a multi-part form data. Check [this example](./RestClients.html#decorating-your-rest-client-example-of-file-upload) for base64 encoding data by extending the REST Client.
+Note that the image upload returns a [File](https://developer.mozilla.org/en/docs/Web/API/File) object. It is your responsibility to handle it depending on your API behavior. You can for instance encode it in base64, or send it as a multi-part form data. Check [this example](./RestClients.md#decorating-your-rest-client-example-of-file-upload) for base64 encoding data by extending the REST Client.
 
 ## `<FileInput>`
 
@@ -387,7 +387,7 @@ Previews (actually a simple list of files names) are enabled using `<FileInput>`
 </FileInput>
 ```
 
-Writing a custom field component for displaying the current value(s) is easy:  it's a standard [field](./Fields.html#writing_your_own_field_component).
+Writing a custom field component for displaying the current value(s) is easy:  it's a standard [field](./Fields.md#writing_your_own_field_component).
 
 When receiving **new** files, `FileInput` will add a `rawFile` property to the object passed as the `record` prop of children. This `rawFile` is the [File](https://developer.mozilla.org/en-US/docs/Web/API/File) instance of the newly added file. This can be useful to display informations about size or mimetype inside a custom field.
 
@@ -401,7 +401,7 @@ If the default Dropzone label doesn't fit with your need, you can pass a `placeh
 </FileInput>
 ```
 
-Note that the file upload returns a [File](https://developer.mozilla.org/en/docs/Web/API/File) object. It is your responsibility to handle it depending on your API behavior. You can for instance encode it in base64, or send it as a multi-part form data. Check [this example](./RestClients.html#decorating-your-rest-client-example-of-file-upload) for base64 encoding data by extending the REST Client.
+Note that the file upload returns a [File](https://developer.mozilla.org/en/docs/Web/API/File) object. It is your responsibility to handle it depending on your API behavior. You can for instance encode it in base64, or send it as a multi-part form data. Check [this example](./RestClients.md#decorating-your-rest-client-example-of-file-upload) for base64 encoding data by extending the REST Client.
 
 ## `<LongTextInput>`
 
@@ -417,7 +417,7 @@ import { LongTextInput } from 'admin-on-rest';
 
 ## `<NumberInput>`
 
-`<NumberInput>` translates to a HTMl `<input type="number">`. It is necessary for numeric values because of a [known React bug](https://github.com/facebook/react/issues/1425), which prevents using the more generic [`<TextInput>`](#textinput) in that case.
+`<NumberInput>` translates to a HTML `<input type="number">`. It is necessary for numeric values because of a [known React bug](https://github.com/facebook/react/issues/1425), which prevents using the more generic [`<TextInput>`](#textinput) in that case.
 
 ```jsx
 import { NumberInput } from 'admin-on-rest';
@@ -940,28 +940,28 @@ You can choose a specific input type using the `type` attribute, for instance `t
 
 **Warning**: Do not use `type="number"`, or you'll receive a string as value (this is a [known React bug](https://github.com/facebook/react/issues/1425)). Instead, use [`<NumberInput>`](#numberinput).
 
-## Transforming Input Value to/from Store
+## Transforming Input Value to/from Record
 
-The data format returned by the input component may not be what your store desires. Since Admin-on-rest uses Redux Form, we can use its `parse()` and `format()` functions to transform the input value to and from the store. It's better to understand the [input value's lifecycle](http://redux-form.com/6.5.0/docs/ValueLifecycle.md/) before you start.
+The data format returned by the input component may not be what your API desires. Since Admin-on-rest uses Redux Form, we can use its `parse()` and `format()` functions to transform the input value when saving to and loading from the record. It's better to understand the [input value's lifecycle](http://redux-form.com/6.5.0/docs/ValueLifecycle.md/) before you start.
 
 Mnemonic for the two functions:
-- `parse()`: input -> store
-- `format()`: store -> input
+- `parse()`: input -> record
+- `format()`: record -> input
 
-Say the user would like to input values of 0-100 to a percentage field but your API (hence store) expects 0-1.0. You can use simple `parse()` and `format()` functions to archive the transform:
+Say the user would like to input values of 0-100 to a percentage field but your API (hence record) expects 0-1.0. You can use simple `parse()` and `format()` functions to archive the transform:
 
 ```jsx
 <NumberInput source="percent" format={v => v*100} parse={v => v/100} label="Formatted number" />
 ```
 
-`<DateInput>` stores and returns a `Date` object. If you would like to store the ISO date `"YYYY-MM-DD"` in your store:
+`<DateInput>` stores and returns a `Date` object. If you would like to store the ISO date `"YYYY-MM-DD"` in your record:
 
 ```jsx
 const dateFormatter = v => {
   // v is a string of "YYYY-MM-DD" format
   const match = /(\d{4})-(\d{2})-(\d{2})/.exec(v);
   if (match === null) return;
-  const d = new Date(match[1], parseInt(match[2])-1, match[3]);
+  const d = new Date(match[1], parseInt(match[2], 10) - 1, match[3]);
   if (isNaN(d)) return;
   return d;
 };
@@ -971,7 +971,7 @@ const dateParser = v => {
   if (!(v instanceof Date) || isNaN(v)) return;
   const pad = '00';
   const yy = v.getFullYear().toString();
-  const mm = ((v.getMonth() + 1).toString();
+  const mm = (v.getMonth() + 1).toString();
   const dd = v.getDate().toString();
   return `${yy}-${(pad + mm).slice(-2)}-${(pad + dd).slice(-2)}`;
 };

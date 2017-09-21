@@ -55,15 +55,32 @@ export class ReferenceField extends Component {
     }
 
     render() {
-        const { record, source, reference, referenceRecord, basePath, allowEmpty, children, style, elStyle, linkType } = this.props;
+        const {
+            record,
+            source,
+            reference,
+            referenceRecord,
+            basePath,
+            allowEmpty,
+            children,
+            style,
+            elStyle,
+            linkType,
+        } = this.props;
         if (React.Children.count(children) !== 1) {
             throw new Error('<ReferenceField> only accepts a single child');
         }
         if (!referenceRecord && !allowEmpty) {
             return <LinearProgress />;
         }
-        const rootPath = basePath.split('/').slice(0, -1).join('/');
-        const href = linkToRecord(`${rootPath}/${reference}`, get(record, source));
+        const rootPath = basePath
+            .split('/')
+            .slice(0, -1)
+            .join('/');
+        const href = linkToRecord(
+            `${rootPath}/${reference}`,
+            get(record, source)
+        );
         const child = React.cloneElement(children, {
             record: referenceRecord,
             resource: reference,
@@ -72,10 +89,18 @@ export class ReferenceField extends Component {
             translateChoice: false,
         });
         if (linkType === 'edit' || linkType === true) {
-            return <Link style={elStyle} to={href}>{child}</Link>;
+            return (
+                <Link style={elStyle} to={href}>
+                    {child}
+                </Link>
+            );
         }
         if (linkType === 'show') {
-            return <Link style={elStyle} to={`${href}/show`}>{child}</Link>;
+            return (
+                <Link style={elStyle} to={`${href}/show`}>
+                    {child}
+                </Link>
+            );
         }
         return <div style={style}>{child}</div>;
     }
@@ -98,10 +123,8 @@ ReferenceField.propTypes = {
     referenceRecord: PropTypes.object,
     source: PropTypes.string.isRequired,
     sourceSort: PropTypes.string,
-    linkType: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool,
-    ]).isRequired,
+    linkType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+        .isRequired,
 };
 
 ReferenceField.defaultProps = {
@@ -113,7 +136,10 @@ ReferenceField.defaultProps = {
 
 function mapStateToProps(state, props) {
     return {
-        referenceRecord: state.admin[props.reference].data[get(props.record, props.source)],
+        referenceRecord:
+            state.admin.resources[props.reference].data[
+                get(props.record, props.source)
+            ],
     };
 }
 

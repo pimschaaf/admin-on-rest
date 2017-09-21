@@ -8,14 +8,24 @@ import ImageEye from 'material-ui/svg-icons/image/remove-red-eye';
 import linkToRecord from '../../util/linkToRecord';
 import translate from '../../i18n/translate';
 
-const ShowButton = ({ basePath = '', label = 'aor.action.show', record = {}, translate, options = {} }) => <FlatButton
-    primary
-    label={label && translate(label)}
-    icon={<ImageEye />}
-    containerElement={<Link to={`${linkToRecord(basePath, record.id)}/show`} />}
-    style={{ overflow: 'inherit' }}
-    {...options}
-/>;
+const ShowButton = ({
+    basePath = '',
+    label = 'aor.action.show',
+    record = {},
+    translate,
+    options = {}
+}) => (
+    <FlatButton
+        primary
+        label={label && translate(label)}
+        icon={<ImageEye />}
+        containerElement={
+            <Link to={`${linkToRecord(basePath, record.id)}/show`} />
+        }
+        style={{ overflow: 'inherit' }}
+        {...options}
+    />
+);
 
 ShowButton.propTypes = {
     basePath: PropTypes.string,
@@ -26,13 +36,13 @@ ShowButton.propTypes = {
 };
 
 const enhance = compose(
-    shouldUpdate((props, nextProps) =>
-        (props.record
-        && props.record.id !== nextProps.record.id
-        || props.basePath !== nextProps.basePath)
-        || (props.record == null && nextProps.record != null)
+    shouldUpdate(
+        (props, nextProps) =>
+            (props.record && props.record.id !== nextProps.record.id) ||
+            props.basePath !== nextProps.basePath ||
+            (props.record == null && nextProps.record != null)
     ),
-    translate,
+    translate
 );
 
 export default enhance(ShowButton);
